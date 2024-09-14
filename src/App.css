@@ -1,38 +1,92 @@
+/* Global styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+/* Add padding to the top to avoid overlapping with the fixed navbar */
 .App {
   text-align: center;
+  margin: 40px auto;
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 70px 30px 30px; /* Adjusted padding */
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+h1 {
+  color: #333333;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Input fields */
+input[type="text"], textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Buttons */
+button {
+  background-color: #007bff;
   color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-color: #0056b3;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+textarea {
+  resize: none;
+}
+
+/* Text areas for displaying results */
+textarea[readonly] {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+/* Container for buttons and results */
+button + button {
+  margin-left: 10px;
+}
+
+/* Results container */
+.results {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.results h3 {
+  margin-bottom: 5px;
+  font-size: 18px;
+  color: #333333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .App {
+    width: 90%;
+    padding: 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  button {
+    width: 100%;
+    margin-bottom: 10px;
   }
 }
