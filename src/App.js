@@ -90,7 +90,7 @@ function App() {
           <h3>Encrypted Password:</h3>
           <textarea value={encryptedPassword} readOnly rows="2" className="output-area" />
 
-          <button className="btn" onTouchEnd={decryptPassword} onClick={decryptPassword}>Decrypt</button>
+          <button className="btn" onTouchEnd={decryptPassword} onClick={decryptPassword}>Decrypt Password</button>
           <h3>Decrypted Password:</h3>
           <textarea value={decryptedPassword} readOnly rows="2" className="output-area" />
         </div>
