@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
@@ -8,66 +8,56 @@ function App() {
   const [hashedPassword, setHashedPassword] = useState('');
   const [encryptedPassword, setEncryptedPassword] = useState('');
   const [decryptedPassword, setDecryptedPassword] = useState('');
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    // Detect if the device is touch-enabled
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   // Handle password change
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  // Function to hash the password
-  const hashPassword = async (e) => {
-    e.preventDefault();  // Prevent double events (click/touch)
+  // Handle button clicks (common handler for both mobile and desktop)
+  const handleButtonClick = async (action) => {
     try {
-      const response = await fetch('http://localhost:5000/hash-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      let response;
+      if (action === 'hash') {
+        response = await fetch('http://localhost:5000/hash-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
+      } else if (action === 'encrypt') {
+        response = await fetch('http://localhost:5000/encrypt-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password }),
+        });
+      } else if (action === 'decrypt') {
+        response = await fetch('http://localhost:5000/decrypt-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ encryptedPassword }),
+        });
       }
-      const data = await response.json();
-      setHashedPassword(data.hashedPassword);
-    } catch (error) {
-      console.error('Error hashing password:', error);
-    }
-  };
 
-  // Function to encrypt the password
-  const encryptPassword = async (e) => {
-    e.preventDefault();  // Prevent double events (click/touch)
-    try {
-      const response = await fetch('http://localhost:5000/encrypt-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      const data = await response.json();
-      setEncryptedPassword(data.encryptedPassword);
-    } catch (error) {
-      console.error('Error encrypting password:', error);
-    }
-  };
 
-  // Function to decrypt the password
-  const decryptPassword = async (e) => {
-    e.preventDefault();  // Prevent double events (click/touch)
-    try {
-      const response = await fetch('http://localhost:5000/decrypt-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ encryptedPassword }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
       const data = await response.json();
-      setDecryptedPassword(data.decryptedPassword);
+      if (action === 'hash') {
+        setHashedPassword(data.hashedPassword);
+      } else if (action === 'encrypt') {
+        setEncryptedPassword(data.encryptedPassword);
+      } else if (action === 'decrypt') {
+        setDecryptedPassword(data.decryptedPassword);
+      }
     } catch (error) {
-      console.error('Error decrypting password:', error);
+      console.error(`Error during ${action}:`, error);
     }
   };
 
@@ -86,8 +76,20 @@ function App() {
         />
 
         <div className="button-group">
-          <button className="btn" onTouchStart={hashPassword} onClick={hashPassword}>Hash Password</button>
-          <button className="btn" onTouchStart={encryptPassword} onClick={encryptPassword}>Encrypt Password</button>
+          <button
+            className="btn"
+            onClick={() => handleButtonClick('hash')}
+            onTouchStart={() => handleButtonClick('hash')}
+          >
+            Hash Password
+          </button>
+          <button
+            className="btn"
+            onClick={() => handleButtonClick('encrypt')}
+            onTouchStart={() => handleButtonClick('encrypt')}
+          >
+            Encrypt Password
+          </button>
         </div>
 
         <div className="results">
@@ -97,7 +99,13 @@ function App() {
           <h3>Encrypted Password:</h3>
           <textarea value={encryptedPassword} readOnly rows="2" className="output-area" />
 
-          <button className="btn" onTouchStart={decryptPassword} onClick={decryptPassword}>Decrypt Password</button>
+          <button
+            className="btn"
+            onClick={() => handleButtonClick('decrypt')}
+            onTouchStart={() => handleButtonClick('decrypt')}
+          >
+            Decrypt Password
+          </button>
           <h3>Decrypted Password:</h3>
           <textarea value={decryptedPassword} readOnly rows="2" className="output-area" />
         </div>
