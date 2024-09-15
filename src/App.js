@@ -78,8 +78,8 @@ function App() {
         <div className="button-group">
           <button
             className="btn"
-            onClick={() => handleButtonClick('hash')}
-            onTouchStart={() => handleButtonClick('hash')}
+            onClick={() => handleButtonClick('hashPassword')}
+            onTouchStart={() => handleButtonClick('hashPassword')}
           >
             Hash Password
           </button>
