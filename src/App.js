@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
-import NavBar from  './components/NavBar';
-import Footer from  './components/Footer';
+import './App.css'; // Ensure this file includes responsive design
+import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     setPassword(e.target.value);
   };
 
-  // Function to hash the password (send request to backend)
+  // Function to hash the password
   const hashPassword = async () => {
     try {
       const response = await fetch('http://localhost:5000/hash-password', {
@@ -30,7 +30,7 @@ function App() {
     }
   };
 
-  // Function to encrypt the password (send request to backend)
+  // Function to encrypt the password
   const encryptPassword = async () => {
     try {
       const response = await fetch('http://localhost:5000/encrypt-password', {
@@ -45,7 +45,7 @@ function App() {
     }
   };
 
-  // Function to decrypt the password (send request to backend)
+  // Function to decrypt the password
   const decryptPassword = async () => {
     try {
       const response = await fetch('http://localhost:5000/decrypt-password', {
@@ -62,38 +62,39 @@ function App() {
 
   return (
     <div>
-    <NavBar/>
-    <div className="App">
-      <h1>Password Hashing & Encryption Tool</h1>
+      <NavBar />
+      <div className="App">
+        <h1>Password Hashing & Encryption Tool</h1>
 
-      <input
-        type="text"
-        placeholder="Enter your password"
-        value={password}
-        onChange={handlePasswordChange}
-      />
+        <input
+          type="text"
+          placeholder="Enter your password"
+          value={password}
+          onChange={handlePasswordChange}
+        />
 
-      <div>
-        <button onClick={hashPassword}>Hash Password</button>
-        <button onClick={encryptPassword}>Encrypt Password</button>
-      </div>
+        <div className="button-group">
+          <button onClick={hashPassword}>Hash Password</button>
+          <button onClick={encryptPassword}>Encrypt Password</button>
+        </div>
 
-      <div className="results">
-        <h3>Hashed Password:</h3>
-        <textarea value={hashedPassword} readOnly rows="2" />
+        <div className="results">
+          <h3>Hashed Password:</h3>
+          <textarea value={hashedPassword} readOnly rows="2" />
 
-        <h3>Encrypted Password:</h3>
-        <textarea value={encryptedPassword} readOnly rows="2" />
+          <h3>Encrypted Password:</h3>
+          <textarea value={encryptedPassword} readOnly rows="2" />
 
-        <button onClick={decryptPassword}>Decrypt Password</button>
-        <h3>Decrypted Password:</h3>
-        <textarea value={decryptedPassword} readOnly rows="2" />
-      </div>
-      <div className="WhatsAppButton-section">
+          <button onClick={decryptPassword}>Decrypt Password</button>
+          <h3>Decrypted Password:</h3>
+          <textarea value={decryptedPassword} readOnly rows="2" />
+        </div>
+
+        <div className="WhatsAppButton-section">
           <WhatsAppButton />
-          </div>
-    </div>
-<Footer/>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }
