@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './App.css';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
-import WhatsAppButton from './components/WhatsAppButton';
 
 function App() {
   const [password, setPassword] = useState('');
@@ -72,7 +71,7 @@ function App() {
   return (
     <div>
       <NavBar />
-      <div className="App">
+      <div>
         <h1>Password Hashing & Encryption Tool</h1>
 
         <input
@@ -99,9 +98,7 @@ function App() {
           <textarea value={decryptedPassword} readOnly rows="2" />
         </div>
 
-        <div className="WhatsAppButton-section">
-          <WhatsAppButton />
-        </div>
+       
       </div>
       <Footer />
     </div>
