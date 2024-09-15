@@ -83,12 +83,16 @@ function App() {
         />
 
         <div className="button-group">
-        <button
+       <a
   className="btn"
-  onClick={() => handleButtonClick('hash')}
+  href="#"
+  onClick={(e) => {
+    e.preventDefault();
+    handleButtonClick('hash');
+  }}
 >
   Hash Password
-</button>
+</a>
           <button
             className="btn"
             onClick={() => handleButtonClick('encrypt')}
