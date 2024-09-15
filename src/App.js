@@ -9,11 +9,14 @@ function App() {
   const [encryptedPassword, setEncryptedPassword] = useState('');
   const [decryptedPassword, setDecryptedPassword] = useState('');
 
+  // Handle password change
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const hashPassword = async () => {
+  // Function to hash the password
+  const hashPassword = async (e) => {
+    e.preventDefault();  // Prevent double events (click/touch)
     try {
       const response = await fetch('http://localhost:5000/hash-password', {
         method: 'POST',
@@ -30,7 +33,9 @@ function App() {
     }
   };
 
-  const encryptPassword = async () => {
+  // Function to encrypt the password
+  const encryptPassword = async (e) => {
+    e.preventDefault();  // Prevent double events (click/touch)
     try {
       const response = await fetch('http://localhost:5000/encrypt-password', {
         method: 'POST',
@@ -47,7 +52,9 @@ function App() {
     }
   };
 
-  const decryptPassword = async () => {
+  // Function to decrypt the password
+  const decryptPassword = async (e) => {
+    e.preventDefault();  // Prevent double events (click/touch)
     try {
       const response = await fetch('http://localhost:5000/decrypt-password', {
         method: 'POST',
@@ -79,8 +86,8 @@ function App() {
         />
 
         <div className="button-group">
-          <button className="btn" onTouchEnd={hashPassword} onClick={hashPassword}>Hash Password</button>
-          <button className="btn" onTouchEnd={encryptPassword} onClick={encryptPassword}>Encrypt Password</button>
+          <button className="btn" onTouchStart={hashPassword} onClick={hashPassword}>Hash Password</button>
+          <button className="btn" onTouchStart={encryptPassword} onClick={encryptPassword}>Encrypt Password</button>
         </div>
 
         <div className="results">
@@ -90,7 +97,7 @@ function App() {
           <h3>Encrypted Password:</h3>
           <textarea value={encryptedPassword} readOnly rows="2" className="output-area" />
 
-          <button className="btn" onTouchEnd={decryptPassword} onClick={decryptPassword}>Decrypt Password</button>
+          <button className="btn" onTouchStart={decryptPassword} onClick={decryptPassword}>Decrypt Password</button>
           <h3>Decrypted Password:</h3>
           <textarea value={decryptedPassword} readOnly rows="2" className="output-area" />
         </div>
