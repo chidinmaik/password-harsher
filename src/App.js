@@ -15,7 +15,7 @@ function App() {
 
   const hashPassword = async () => {
     try {
-      const response = await fetch('http://localhost:5000/hash-password', {
+      const response = await fetch('/api/hash', { // Adjust to your Vercel URL
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
@@ -32,7 +32,7 @@ function App() {
 
   const encryptPassword = async () => {
     try {
-      const response = await fetch('http://localhost:5000/encrypt-password', {
+      const response = await fetch('/api/encrypt', { // Adjust to your Vercel URL
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
@@ -49,7 +49,7 @@ function App() {
 
   const decryptPassword = async () => {
     try {
-      const response = await fetch('http://localhost:5000/decrypt-password', {
+      const response = await fetch('/api/decrypt', { // Adjust to your Vercel URL
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ encryptedPassword }),
@@ -79,8 +79,8 @@ function App() {
         />
 
         <div className="button-group">
-          <button className="btn" onTouchEnd={hashPassword} onClick={hashPassword}>Hash Password</button>
-          <button className="btn" onTouchEnd={encryptPassword} onClick={encryptPassword}>Encrypt Password</button>
+          <button className="btn" onClick={hashPassword}>Hash Password</button>
+          <button className="btn" onClick={encryptPassword}>Encrypt Password</button>
         </div>
 
         <div className="results">
@@ -90,7 +90,7 @@ function App() {
           <h3>Encrypted Password:</h3>
           <textarea value={encryptedPassword} readOnly rows="2" className="output-area" />
 
-          <button className="btn" onTouchEnd={decryptPassword} onClick={decryptPassword}>Decrypt Password</button>
+          <button className="btn" onClick={decryptPassword}>Decrypt Password</button>
           <h3>Decrypted Password:</h3>
           <textarea value={decryptedPassword} readOnly rows="2" className="output-area" />
         </div>

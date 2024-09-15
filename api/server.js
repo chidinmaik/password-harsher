@@ -7,7 +7,7 @@ require('dotenv').config(); // To use environment variables
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const secretKey = process.env.SECRET_KEY || 'your-secret-key'; // Use environment variable or fallback
+const secretKey = process.env.SECRET_KEY || 'mykey'; // Use environment variable or fallback
 
 // Middleware
 app.use(cors()); // Enable CORS
