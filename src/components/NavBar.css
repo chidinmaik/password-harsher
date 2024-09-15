@@ -1,12 +1,13 @@
 /* Basic navbar styles */
 .navbar {
     background-color: #007bff;
-    padding: 15px;
+    padding: 10px;
     position: fixed;
     width: 100%;
     top: 0;
     left: 0;
     z-index: 10;
+    margin-bottom: 10;
   }
   
   .navbar-container {
