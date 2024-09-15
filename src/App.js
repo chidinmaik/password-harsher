@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css'; // Ensure this file includes responsive design
+import './App.css';
 import NavBar from './components/NavBar';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
@@ -23,6 +23,9 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       const data = await response.json();
       setHashedPassword(data.hashedPassword);
     } catch (error) {
@@ -38,6 +41,9 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       const data = await response.json();
       setEncryptedPassword(data.encryptedPassword);
     } catch (error) {
@@ -53,6 +59,9 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ encryptedPassword }),
       });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       const data = await response.json();
       setDecryptedPassword(data.decryptedPassword);
     } catch (error) {
@@ -74,8 +83,8 @@ function App() {
         />
 
         <div className="button-group">
-          <button onClick={hashPassword}>Hash Password</button>
-          <button onClick={encryptPassword}>Encrypt Password</button>
+          <button onTouchEnd={hashPassword} onClick={hashPassword}>Hash Password</button>
+          <button onTouchEnd={encryptPassword} onClick={encryptPassword}>Encrypt Password</button>
         </div>
 
         <div className="results">
@@ -85,7 +94,7 @@ function App() {
           <h3>Encrypted Password:</h3>
           <textarea value={encryptedPassword} readOnly rows="2" />
 
-          <button onClick={decryptPassword}>Decrypt Password</button>
+          <button onTouchEnd={decryptPassword} onClick={decryptPassword}>Decrypt Password</button>
           <h3>Decrypted Password:</h3>
           <textarea value={decryptedPassword} readOnly rows="2" />
         </div>

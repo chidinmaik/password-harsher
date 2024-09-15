@@ -3,9 +3,11 @@ const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const CryptoJS = require('crypto-js');
 const cors = require('cors');
+require('dotenv').config(); // To use environment variables
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+const secretKey = process.env.SECRET_KEY || 'your-secret-key'; // Use environment variable or fallback
 
 // Middleware
 app.use(cors()); // Enable CORS
@@ -14,39 +16,57 @@ app.use(bodyParser.json());
 // API to hash the password
 app.post('/hash-password', (req, res) => {
   const { password } = req.body;
+  console.log('Received password for hashing:', password);
   if (!password) {
+    console.log('Error: Password is required');
     return res.status(400).json({ error: 'Password is required' });
   }
-  const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
-  res.json({ hashedPassword });
+  try {
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+    res.json({ hashedPassword });
+  } catch (error) {
+    console.error('Error hashing password:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 // API to encrypt the password
 app.post('/encrypt-password', (req, res) => {
   const { password } = req.body;
+  console.log('Received password for encryption:', password);
   if (!password) {
+    console.log('Error: Password is required');
     return res.status(400).json({ error: 'Password is required' });
   }
-  const secretKey = 'your-secret-key';  // Replace with a secure secret key
-  const encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
-  res.json({ encryptedPassword });
+  try {
+    const encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
+    res.json({ encryptedPassword });
+  } catch (error) {
+    console.error('Error encrypting password:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 // API to decrypt the password
 app.post('/decrypt-password', (req, res) => {
   const { encryptedPassword } = req.body;
+  console.log('Received encrypted password for decryption:', encryptedPassword);
   if (!encryptedPassword) {
+    console.log('Error: Encrypted password is required');
     return res.status(400).json({ error: 'Encrypted password is required' });
   }
-  const secretKey = 'your-secret-key';  // Must be the same secret key used for encryption
-  const bytes = CryptoJS.AES.decrypt(encryptedPassword, secretKey);
-  const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
-
-  if (!originalPassword) {
-    return res.status(400).json({ error: 'Invalid encrypted password' });
+  try {
+    const bytes = CryptoJS.AES.decrypt(encryptedPassword, secretKey);
+    const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
+    if (!originalPassword) {
+      console.log('Error: Invalid encrypted password');
+      return res.status(400).json({ error: 'Invalid encrypted password' });
+    }
+    res.json({ decryptedPassword: originalPassword });
+  } catch (error) {
+    console.error('Error decrypting password:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-
-  res.json({ decryptedPassword: originalPassword });
 });
 
 // Start the server
