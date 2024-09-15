@@ -22,14 +22,21 @@ function App() {
 
   // Handle button clicks (common handler for both mobile and desktop)
   const handleButtonClick = async (action) => {
-    try {
-      let response;
-      if (action === 'hash') {
-        response = await fetch('http://localhost:5000/hash-password', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password }),
-        });
+  try {
+    // API call logic here
+  } catch (error) {
+    console.error(`Error during ${action}:`, error);
+    alert(`Error: ${error.message}`); // Display error message to the user
+  }
+};
+
+
+
+
+
+
+
+        
       } else if (action === 'encrypt') {
         response = await fetch('http://localhost:5000/encrypt-password', {
           method: 'POST',
@@ -76,13 +83,12 @@ function App() {
         />
 
         <div className="button-group">
-          <button
-            className="btn"
-            onClick={() => handleButtonClick('hash')}
-            onTouchStart={() => handleButtonClick('hash')}
-          >
-            Hash Password
-          </button>
+        <button
+  className="btn"
+  onClick={() => handleButtonClick('hash')}
+>
+  Hash Password
+</button>
           <button
             className="btn"
             onClick={() => handleButtonClick('encrypt')}
