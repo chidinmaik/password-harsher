@@ -83,10 +83,11 @@ function App() {
         />
 
         <div className="button-group">
-     <a
+    <a
   className="btn"
   href="#"
-  onTouchEnd={(e) => {
+  onClick={(e) => {
+    console.log('Button clicked!');
     e.preventDefault();
     handleButtonClick('hash');
   }}
