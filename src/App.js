@@ -85,11 +85,9 @@ function App() {
         <div className="button-group">
    <a
   className="btn"
-  href="#"
+  href="javascript:void(0)"
   onClick={(e) => {
-    console.log('Button clicked!');
-    e.preventDefault();
-    alert('Button clicked!');
+    handleButtonClick('hash');
   }}
 >
   Hash Password
