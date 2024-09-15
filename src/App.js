@@ -82,11 +82,12 @@ function App() {
           onChange={handlePasswordChange}
         />
 
-        <div className="button-group">
-   <a
+        <div>
+ <a
   className="btn"
-  href="javascript:void(0)"
-  onClick={(e) => {
+  href="#"
+  onTouchEnd={(e) => {
+    e.preventDefault();
     handleButtonClick('hash');
   }}
 >
